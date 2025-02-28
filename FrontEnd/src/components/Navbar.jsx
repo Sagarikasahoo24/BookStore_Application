@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Login from './Login';
+import Logout from './Logout';
+import { useAuth } from '../context/AuthProvider';
 
 const Navbar = () => {
+
+    const [authUser,setAuthUser]=useAuth()
+    // console.log(authUser);
+
     const [theme,setTheme]=useState(localStorage.getItem("theme")?localStorage.getItem("theme"):"light")
     const element=document.documentElement;
+
     useEffect(() => {
       if(theme==="dark"){
         element.classList.add("dark");
@@ -132,7 +139,9 @@ const Navbar = () => {
                     </svg>
                 </label>
 
-                <div>
+                {
+                    authUser?<Logout/>:
+                    <div className=''>
                     <a 
                       className="bg-black text-white p-2 rounded hover:bg-slate-800 duration-300 cursor-pointer px-3 py-2"
                       onClick={()=>document.getElementById("my_modal_3").showModal()  
@@ -142,6 +151,9 @@ const Navbar = () => {
                     </a>
                     <Login/>
                 </div>
+                }
+
+                
             </div>    
         </div>
       </div>
